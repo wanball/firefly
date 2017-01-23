@@ -94,6 +94,10 @@ h6,
 
 /*header*/
 
+.user-panel>.image {
+    width: 100%;
+}
+
 .main-header .navbar-nav>.user-menu .user-image,
 .navbar-nav>.user-menu>.dropdown-menu>li.user-header>img,
 .user-panel>.image>img {

@@ -4,7 +4,7 @@
       <?php /* mini logo for sidebar mini 50x50 pixels */?>
       <span class="logo-mini"><img src="images/sidelogo.png" alt=""></span>
       <?php /* logo for regular state and mobile devices */?>
-      <span class="logo-lg"><b>WEBENGINE</b></span>
+      <span class="logo-lg"><b>FireFly</b></span>
     </a>
 
     <?php /* Header Navbar */?>

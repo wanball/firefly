@@ -158,15 +158,24 @@ $(function() {
         var fileUpload = $(this);
         var num_file = parseInt(fileUpload.get(0).files.length);
         var limit_file = parseInt(fileUpload.attr('data-limit'));
+        var patten_name = $(this).attr('name');
+        patten_name = patten_name.replace("pattern_", "");
+        patten_name = patten_name.replace("[]", "");
+        var current_file = parseInt($('#display_' + patten_name + ' div').length);
+
+        var total_file = limit_file - current_file;
         if (num_file > limit_file) {
             fileUpload.val('');
             var res = warning_text2.replace('|:NUM:|', limit_file);
             swal(warning_text1, res, "error");
+        } else if (num_file > total_file) {
+            fileUpload.val('');
+            var res = warning_text2.replace('|:NUM:|', limit_file);
+            swal(warning_text1, res, "error");
         } else {
-            var patten_name = $(this).attr('name');
-            patten_name = patten_name.replace("pattern_", "");
-            patten_name = patten_name.replace("[]", "");
             action_id = patten_name;
+
+            $('#Progress_' + action_id).fadeIn();
 
             $(this).clone().appendTo("#action_frame");
             $('#action_frame').attr({
@@ -219,11 +228,33 @@ function swapSubDistrict(name, id_val) {
 }
 
 function returnTempFile(data) {
-    clearTempFile();
 
+    var bg_color = 'bg-green';
     $.each(data.success, function(i, obj) {
-        console.log(obj.name);
+        if (bg_color == 'bg-green') {
+            bg_color = 'bg-red';
+        } else {
+            bg_color = 'bg-green';
+        }
+        var row = '';
+        row += '<a class="info-box" target="_blank" href="../upload/temp/' + obj.file + '">';
+        row += '<span class="info-box-icon ' + bg_color + '">';
+        row += '<img src="' + getMimes(obj.ext) + '" alt="" />';
+        row += '</span>';
+        row += '<div class="info-box-content">';
+        row += '<span class="info-box-text">' + obj.name + '</span>';
+        row += '<span class="info-box-number">';
+        row += '<div class="col-md-6">';
+        row += 'Mimes : ' + obj.type;
+        row += '</div><div class="col-md-6">';
+        row += 'Size : ' + obj.size;
+        row += '</div></span>';
+        row += '</div>';
+        row += '</a>';
+
+        $('#display_' + action_id).append(row);
     });
+    clearTempFile();
 
     var num_error = data.errors.length;
     if (num_error > 0) {
@@ -245,6 +276,11 @@ function clearTempFile() {
         action: "#"
     }).find('input').remove();
     $('#pattern_' + action_id).val('');
+    $('#action_iframe').attr({
+        src: "#"
+    });
+
+    $('#Progress_' + action_id).fadeOut();
     action_id = 0;
 }
 

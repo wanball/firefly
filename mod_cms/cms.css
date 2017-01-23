@@ -1,44 +1,56 @@
+#group_table td {
+    width: 30%;
+}
 
-#group_table td{
-	width: 30%;
+#group_table th:nth-child(1),
+#group_table td:nth-child(1) {
+    padding-left: 3%;
 }
-#group_table th:nth-child(1) , #group_table td:nth-child(1){
-	padding-left: 3%;
+
+#group_table td:nth-child(4) {
+    width: 10%;
 }
-#group_table td:nth-child(4){
-	width: 10%;
-}
+
 .language_switch .select2 .select2-selection--single {
     border: 1px solid #d2d6de;
     border-radius: 0;
     height: 34px;
 }
-.language_switch .select2 .select2-selection--single .select2-selection__arrow{
+
+.language_switch .select2 .select2-selection--single .select2-selection__arrow {
     height: 34px;
 }
-.img-flag{
-	display: inline-block;
-	height: 24px;
-	width: 35px;
-	margin-right: 5px;
+
+.img-flag {
+    display: inline-block;
+    height: 24px;
+    width: 35px;
+    margin-right: 5px;
 }
+
 img.cms_thumbnail {
-	margin: 0 auto 2em auto;
-	display: block;
-	max-height: 160px;
+    margin: 0 auto 2em auto;
+    display: block;
+    max-height: 160px;
 }
-.scheduled_tab{
+
+.scheduled_tab {
     display: none;
 }
-.scheduled_tab div.datetime_box{
-	padding-left: 15px;
-	padding-right: 15px;
 
+.scheduled_tab div.datetime_box {
+    padding-left: 15px;
+    padding-right: 15px;
 }
-.bootstrap-datetimepicker-widget ul{
-	padding-left: 0px;
+
+.bootstrap-datetimepicker-widget ul {
+    padding-left: 0px;
 }
-.picker-switch i[class^="icon-"], .picker-switch i[class*=" icon-"] , .timepicker i[class^="icon-"], .timepicker i[class*=" icon-"] {
+
+.picker-switch i[class^="icon-"],
+.picker-switch i[class*=" icon-"],
+.timepicker i[class^="icon-"],
+.timepicker i[class*=" icon-"] {
     background-image: url("../template/bootstrap/img/glyphicons-halflings.png");
     background-position: 14px 14px;
     background-repeat: no-repeat;
@@ -49,18 +61,23 @@ img.cms_thumbnail {
     vertical-align: text-top;
     width: 14px;
 }
+
 .picker-switch i.icon-time {
     background-position: -48px -24px;
 }
+
 .picker-switch i.icon-calendar {
     background-position: -192px -120px;
 }
+
 .timepicker .icon-chevron-up {
     background-position: -288px -120px !important;
 }
+
 .timepicker .icon-chevron-down {
     background-position: -313px -119px !important;
 }
+
 .timepicker .btn {
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
@@ -86,16 +103,65 @@ img.cms_thumbnail {
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
     vertical-align: middle;
 }
-.form-group > .radio:nth-child(2){
+
+.form-group>.radio:nth-child(2) {
     margin-top: 0;
 }
-.form-group > .textarea_form{
+
+.form-group>.textarea_form {
     resize: none;
 }
 
+.upload_Progress {
+    display: block;
+    margin: 5px 0;
+    height: 20px;
+    display: none;
+}
+
+.upload_condition {
+    padding-left: 15px;
+}
+
+.displayUpload .info-box {
+    min-height: 50px;
+}
+
+.displayUpload .info-box-icon {
+    height: 50px;
+    line-height: 100%;
+    width: 50px;
+}
+
+.displayUpload .info-box-icon>img {
+    max-width: 80%;
+}
+
+.displayUpload .info-box-content {
+    margin-left: 55px;
+    padding: 2px 10px 5px 10px;
+}
+
+.displayUpload .info-box-text {
+    font-size: 18px;
+    font-weight: 800;
+    color: #333;
+    text-transform: initial;
+}
+
+.displayUpload .info-box-number {
+    font-size: 14px;
+    font-weight: 400;
+    color: #737373;
+}
+
+.displayUpload .info-box-number .col-md-6 {
+    padding: 0;
+}
+
 @media only screen and (max-width: 480px) {
-	img.cms_thumbnail {
-		max-height: inherit;
-		width:90%;
-	}
+    img.cms_thumbnail {
+        max-height: inherit;
+        width: 90%;
+    }
 }

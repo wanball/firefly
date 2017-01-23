@@ -112,4 +112,5 @@ $language['limit_error'] = 'You can only upload a maximum of |:NUM:| files';
 $language['size_error'] = 'File size must be exactly ';
 $language['ext_error'] = 'Extension not allowed, please choose a ';
 $language['upload_failed'] = 'Sorry, Uploading File(s) failed. Please try again.';
+$language['ext_support'] = 'Support file ';
 ?>

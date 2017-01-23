@@ -59,6 +59,8 @@ if(isset($_POST['pid'])){
                 $Success[$key]['file'] = $new_name;
                 $Success[$key]['name'] = $file_name;
                 $Success[$key]['ext'] = $file_ext;
+                $Success[$key]['type'] = $file_type;
+                $Success[$key]['size'] = formatSizeUnits($file_size);
             }
 
         }      

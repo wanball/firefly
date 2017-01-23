@@ -76,6 +76,10 @@ if($level == $config_depth){
 	$btn_create['name'] = $language['cms_create_group'];
 }
 
+//find max sizeof
+$max_size = file_upload_max_size();
+$max_size = ceil($max_size * 0.90);
+$max_size = $language['size_error'].formatSizeUnits($max_size);
 
 $_plugin_list .= '
 <!-- Slimscroll -->
@@ -106,7 +110,8 @@ $_plugin_list .= '
 <!-- InputMask -->
 <script src="plugins/jquery.inputmask.bundle.min.js"></script>
 <!-- timeago -->
-<script src="plugins/timeago/jquery.timeago.min.js"></script>  ';
+<script src="plugins/timeago/jquery.timeago.min.js"></script>  
+';
 
 if($_SESSION['language'] == 'th'){
 $_plugin_list .= '
@@ -120,6 +125,7 @@ $_plugin_list .= '
 var warning_text1 = "'.$language['error'].'";
 var warning_text2 = "'.$language['limit_error'].'";
 var warning_text3 = "'.$language['upload_failed'].'";
+var warning_text4 = "'.$max_size.'";
 var and_text = "'.$language['and'].'";
 </script>
 ';
@@ -801,17 +807,44 @@ var and_text = "'.$language['and'].'";
 											
 											//File Input	
 											}else if($row_pattern['mod_cms_pattern_format'] == 24){
+												/* label */
+												$expension  = str_replace('.','',$placeholder);
+												$expensions = explode(',',$expension);
+												unset($expension);
+
+												$label_upload = '<ul class="upload_condition">';
+												if($label != ''){
+													$label_upload .=  '<li>';
+													$label_upload .=  $label;
+													$label_upload .=  '</li>';
+												}
+													$label_upload .=  '<li>';
+													$label_upload .=  $language['ext_support'] . natural_language_join($expensions,$language['or']);
+													$label_upload .=  '</li>';
+													$label_upload .=  '<li>';
+													$label_upload .=  $max_size;
+													$label_upload .=  '</li>';
+
 												if($value > 1){
+
+													$label_upload .=  '<li>';
+													$label_upload .=  str_replace('|:NUM:|',$value,$language['limit_error']);
+													$label_upload .=  '</li>';
+
 													$value = $value.'" multiple="multiple';
 												}
 
 												echo '<div class="displayUpload" id="display_'.$pattern_id.'"></div>';
 												echo '<input type="file" class="inputUpload" id="pattern_'.$pattern_id.'" name="pattern_'.$pattern_id.'[]" data-limit="'.$value.'" accept="'.$placeholder.'">';
+												echo '<img src="images/bar-loading.gif" alt="loading" class="upload_Progress" id="Progress_'.$pattern_id.'" >';
+
+
+												
+												$label_upload .= "</ul>";
+
+												$label = $label_upload;
 
 											}
-
-
-
 
 												if($label != ''){
 													echo '<span class="help-block">';
