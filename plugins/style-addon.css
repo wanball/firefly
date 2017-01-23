@@ -1,0 +1,202 @@
+html>body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-family: "Sukhumvit Set", 'Prompt', sans-serif;
+}
+
+
+/*Home page*/
+
+.login-page {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.login-page:after {
+    background-color: rgba(100, 100, 100, 0.6);
+    content: "";
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+#backgroundMobile:after {
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.login-box {
+    margin: 12% auto;
+}
+
+.login-box-msg {
+    font-size: 1.5em;
+}
+
+.login-logo>a>b {
+    color: #fff;
+}
+
+
+/*Error page*/
+
+.pageError .wrapper {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-image: url('../images/error-bg.jpg');
+}
+
+.pageError .content-wrapper {
+    margin-left: 0px;
+    background-color: rgba(236, 240, 245, 0.6);
+}
+
+.pageError .content-wrapper .content {
+    padding-top: 15%;
+}
+
+.pageError .content-wrapper .content .error-page {
+    background-color: #ecf0f5;
+    padding: 20px;
+    width: 640px;
+}
+
+.pageError .PlayGame {
+    bottom: 1%;
+    left: 1%;
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    -webkit-animation: jump 1.5s ease 1s infinite normal;
+    animation: jump 1.5s ease 1s infinite normal;
+}
+
+.pageError .PlayGame img {
+    height: 30px;
+    width: 30px;
+}
+
+
+/*header*/
+
+.main-header .navbar-nav>.user-menu .user-image,
+.navbar-nav>.user-menu>.dropdown-menu>li.user-header>img,
+.user-panel>.image>img {
+    background-color: #fff;
+    border: 1px solid #fff;
+}
+
+.main-header .navbar-nav>.user-menu,
+.sidebar .user-panel>.info,
+.profile-username {
+    text-transform: capitalize;
+}
+
+
+/*main page*/
+
+.content-header>.breadcrumb {
+    font-size: 0.9em;
+}
+
+.ajax-Loading {
+    background-image: url('../images/gears.gif');
+    background-size: auto 40%;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.ajax-Loading2 {
+    background-image: url('../images/squares.gif');
+    background-size: auto 80%;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.sparkline {
+    height: 50px;
+}
+
+.textChangePass {
+    padding-top: 7px;
+}
+
+#cms_page .box-header>a.box-title {
+    font-size: 16px;
+}
+
+#cms_page .box-header>div.box-tools {
+    position: static;
+    right: auto;
+    top: 0;
+}
+
+.control-sidebar-bg,
+.control-sidebar {
+    right: -280px;
+    width: 280px;
+}
+
+.breadcrumb li.active>a {
+    color: #212121;
+    font-weight: 800;
+}
+
+optgroup {
+    padding-left: 5px;
+}
+
+.dNone {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    #cms_page .box-header>a.box-title span {
+        display: none;
+    }
+    #cms_page .box-header>a.box-title::before {
+        font-family: FontAwesome;
+        content: "\f055";
+    }
+}
+
+
+/*keyframes*/
+
+@keyframes jump {
+    0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+    20% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+    40% {
+        -webkit-transform: translateY(-30px);
+        transform: translateY(-30px);
+    }
+    50% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+    60% {
+        -webkit-transform: translateY(-15px);
+        transform: translateY(-15px);
+    }
+}

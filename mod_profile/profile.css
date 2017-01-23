@@ -1,0 +1,40 @@
+.file-btn input[type="file"] {
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+#avatar #upload-demo,
+#avatar .upload-result,
+#avatar.ready .upload-msg {
+    display: none;
+}
+#avatar.ready #upload-demo {
+    display: block;
+}
+#avatar.ready .upload-result {
+    display: inline-block;    
+}
+
+.upload-msg {
+    text-align: center;
+    padding: 125px 50px ;
+    font-size: 22px;
+    color: #aaa;
+    width: 100%;
+    margin: 20px auto;
+    border: 1px solid #aaa;
+}
+.actions {
+    padding: 5px 0;
+    margin: 0px auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    transition: background 0.3s linear;
+}
+.actions-loading {   
+    background-image: url('../images/gears.gif');
+}

@@ -1,0 +1,101 @@
+
+#group_table td{
+	width: 30%;
+}
+#group_table th:nth-child(1) , #group_table td:nth-child(1){
+	padding-left: 3%;
+}
+#group_table td:nth-child(4){
+	width: 10%;
+}
+.language_switch .select2 .select2-selection--single {
+    border: 1px solid #d2d6de;
+    border-radius: 0;
+    height: 34px;
+}
+.language_switch .select2 .select2-selection--single .select2-selection__arrow{
+    height: 34px;
+}
+.img-flag{
+	display: inline-block;
+	height: 24px;
+	width: 35px;
+	margin-right: 5px;
+}
+img.cms_thumbnail {
+	margin: 0 auto 2em auto;
+	display: block;
+	max-height: 160px;
+}
+.scheduled_tab{
+    display: none;
+}
+.scheduled_tab div.datetime_box{
+	padding-left: 15px;
+	padding-right: 15px;
+
+}
+.bootstrap-datetimepicker-widget ul{
+	padding-left: 0px;
+}
+.picker-switch i[class^="icon-"], .picker-switch i[class*=" icon-"] , .timepicker i[class^="icon-"], .timepicker i[class*=" icon-"] {
+    background-image: url("../template/bootstrap/img/glyphicons-halflings.png");
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 14px;
+    line-height: 14px;
+    margin-top: 1px;
+    vertical-align: text-top;
+    width: 14px;
+}
+.picker-switch i.icon-time {
+    background-position: -48px -24px;
+}
+.picker-switch i.icon-calendar {
+    background-position: -192px -120px;
+}
+.timepicker .icon-chevron-up {
+    background-position: -288px -120px !important;
+}
+.timepicker .icon-chevron-down {
+    background-position: -313px -119px !important;
+}
+.timepicker .btn {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #f5f5f5;
+    background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
+    border-image: none;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+    color: #333333;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 0;
+    padding: 4px 12px;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+}
+.form-group > .radio:nth-child(2){
+    margin-top: 0;
+}
+.form-group > .textarea_form{
+    resize: none;
+}
+
+@media only screen and (max-width: 480px) {
+	img.cms_thumbnail {
+		max-height: inherit;
+		width:90%;
+	}
+}

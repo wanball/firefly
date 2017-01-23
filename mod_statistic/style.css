@@ -1,0 +1,11 @@
+html > body #world-map , div.jvectormap-label{
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 16px;
+}
+.box .knob-label{
+    font-size: 1.1em;
+    font-weight: 300;
+}
+.ranges li{
+	font-size: 1.5em;
+}
