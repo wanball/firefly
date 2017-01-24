@@ -1,0 +1,27 @@
+.mailbox-checkbox{
+width: 23px;	
+}
+.mailbox-star{
+	width: 16px;
+}
+.mailbox-subject > span{
+	overflow:hidden;
+	height: 21px;
+	display: block;
+	}
+.mailbox-name{
+	min-width: 130px;
+}
+.mailbox-attachment , ..mailbox-reply{
+	width: 18px;
+}
+.mailbox-date{
+	min-width: 160px;
+}
+
+tr.read{
+	background-color: rgba(240, 240, 240, 1) !important;
+}
+.table-striped > tbody > tr:nth-of-type(2n+1){
+	background-color: #fff;
+}

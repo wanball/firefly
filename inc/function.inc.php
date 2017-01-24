@@ -378,4 +378,10 @@ function natural_language_join(array $list, $conjunction = 'and')
     ), $last), 'strlen');
     return join($conjunction, $both);
 }
+function strRip($str,$length){
+	$str = strip_tags($str);
+	$str = trim($str);
+	$str = mb_substr($str, 0, $length, 'UTF-8');
+	return $str;
+}
 ?>
