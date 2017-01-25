@@ -161,9 +161,9 @@ $(function() {
         var patten_name = $(this).attr('name');
         patten_name = patten_name.replace("pattern_", "");
         patten_name = patten_name.replace("[]", "");
-        var current_file = parseInt($('#display_' + patten_name + ' div').length);
-
+        var current_file = parseInt($('#display_' + patten_name + ' li').length);
         var total_file = limit_file - current_file;
+
         if (num_file > limit_file) {
             fileUpload.val('');
             var res = warning_text2.replace('|:NUM:|', limit_file);
@@ -184,6 +184,21 @@ $(function() {
         }
     });
 
+
+    $(".displayUpload").sortable({
+        stop: function(e, ui) {
+            var block_id = $(this).attr('id');
+            block_id = block_id.replace("display_", "");
+
+            $.map($(this).find('li'), function(el) {
+                var location_name = $(el).attr('data-pos');
+                var new_name = 'fileUpload_' + block_id + '[' + $(el).index() + ']';
+
+                $('#display_' + block_id + ' li[data-pos="' + location_name + '"]').find('input').attr('name', new_name);
+            });
+        }
+    });
+    $(".displayUpload").disableSelection();
 });
 
 
@@ -227,18 +242,17 @@ function swapSubDistrict(name, id_val) {
         });
 }
 
-function returnTempFile(data) {
+function returnTempFile(data) {;
+    var num_upload = parseInt($('#display_' + action_id + ' li').length);
 
-    var bg_color = 'bg-green';
     $.each(data.success, function(i, obj) {
-        if (bg_color == 'bg-green') {
-            bg_color = 'bg-red';
-        } else {
-            bg_color = 'bg-green';
-        }
+
+
         var row = '';
+        row += '<li data-pos="' + num_upload + '">';
+        row += '<button type="button" class="btn bg-red btn-sm pull-right" onclick="RemoveTempFile(' + action_id + ',' + num_upload + ',\'' + obj.file + '\');"><i class="fa fa-trash-o"></i></button>';
         row += '<a class="info-box" target="_blank" href="../upload/temp/' + obj.file + '">';
-        row += '<span class="info-box-icon ' + bg_color + '">';
+        row += '<span class="info-box-icon">';
         row += '<img src="' + getMimes(obj.ext) + '" alt="" />';
         row += '</span>';
         row += '<div class="info-box-content">';
@@ -248,9 +262,11 @@ function returnTempFile(data) {
         row += 'Mimes : ' + obj.type;
         row += '</div><div class="col-md-6">';
         row += 'Size : ' + obj.size;
-        row += '</div></span>';
+        row += '</div><div class="clearfix"></div></span>';
         row += '</div>';
         row += '</a>';
+        row += '<input type="hidden" name="fileUpload_' + action_id + '[' + num_upload++ + ']" value="' + obj.file + '">';
+        row += '</li>';
 
         $('#display_' + action_id).append(row);
     });
@@ -287,4 +303,11 @@ function clearTempFile() {
 function returnTempError() {
     clearTempFile();
     swal(warning_text1, warning_text3, "error");
+}
+
+function RemoveTempFile(id, pid, name) {
+    $.post("mod_cms/cms_ajax.php", { name: name, clear: "clearTemp" })
+        .done(function(data) {
+            $('#display_' + id + ' li[data-pos="' + pid + '"]').remove();
+        });
 }

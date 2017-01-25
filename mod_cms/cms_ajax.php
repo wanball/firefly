@@ -61,6 +61,8 @@ if(isset($_POST['pid'])){
                 $Success[$key]['ext'] = $file_ext;
                 $Success[$key]['type'] = $file_type;
                 $Success[$key]['size'] = formatSizeUnits($file_size);
+
+                chmod($target_dir2.'/'.$new_name , 0755);
             }
 
         }      
@@ -102,6 +104,25 @@ if(isset($_POST['pid'])){
 		}
 		header('Content-type: application/json; charset=utf-8');
 		print json_encode($rows);	
+    }
+    exit();
+}else if(isset($_POST['clear'])){
+    isset($_POST['name']) ? $name = $_POST['name'] : $name = '';
+    isset($_POST['clear']) ? $clear = $_POST['clear'] : $clear = '';
+
+    if($clear == 'clearTemp'){
+        $target_dir1 = '../'._UPLOAD_DIR_;
+        $target_dir2 = $target_dir1."temp";
+        checkDir($target_dir1);
+        checkDir($target_dir2); 
+
+        $file_name = $target_dir2.'/'.$name;
+        if(file_exists($file_name) && $name != ''){
+            chmod($file_name , 0777);
+            unlink($file_name);
+        }
+            chmod($target_dir2 , 0755);
+            chmod($target_dir1 , 0755);
     }
     exit();
 } 

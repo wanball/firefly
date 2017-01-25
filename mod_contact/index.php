@@ -203,7 +203,7 @@ $_plugin_list .= '
 	                $stmt_group = $conn->prepare($sql);
 					$stmt_group->execute();			
 					while($row_group = $stmt_group->fetch()){ 
-						$detail = strRip($row_group['mod_cotact_detail'],50);
+						$detail = strRip($row_group['mod_cotact_detail'],100);
 						
 						$read_staus = '';
 						if($row_group['mod_cotact_staus'] == 'read'){
@@ -236,7 +236,11 @@ $_plugin_list .= '
 	                    <span><b><?php echo $row_group['mod_cotact_title']; ?></b> <?php echo $detail; ?></span>
                     </td>
                     <td class="mailbox-attachment"><?php echo $attachment_staus; ?></td>
-                    <td class="mailbox-date"><time class="timeago" datetime="<?php echo DateISO8601($row_group['mod_cotact_createDate']); ?>"><?php echo $row_group['mod_cotact_createDate']; ?></time></td>
+                    <td class="mailbox-date">
+                      <time class="timeago" datetime="<?php echo DateISO8601($row_group['mod_cotact_createDate']); ?>">
+                        <?php echo dateShow($_SESSION['language'],'d','M','Y','','',$row_group['mod_cotact_createDate']); ?>
+                      </time>
+                      </td>
                   </tr>
 				<?php } ?>  
                   </tbody>

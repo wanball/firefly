@@ -834,7 +834,7 @@ var and_text = "'.$language['and'].'";
 													$value = $value.'" multiple="multiple';
 												}
 
-												echo '<div class="displayUpload" id="display_'.$pattern_id.'"></div>';
+												echo '<ul class="displayUpload" id="display_'.$pattern_id.'"></ul>';
 												echo '<input type="file" class="inputUpload" id="pattern_'.$pattern_id.'" name="pattern_'.$pattern_id.'[]" data-limit="'.$value.'" accept="'.$placeholder.'">';
 												echo '<img src="images/bar-loading.gif" alt="loading" class="upload_Progress" id="Progress_'.$pattern_id.'" >';
 
