@@ -22,59 +22,15 @@ if(isset($_GET['p'])){
 	$parent = 0;
 }
 
-$moduleEncode = base64_encode($menu_id.'|mod_cms|index.php|'.$moduleKey);
+$moduleEncode = base64_encode($menu_id.'|mod_contact|index.php|'.$moduleKey);
 
-if($level == 0){
-	$breadcrumb_active = '<li>'.$row_permisson['sys_menu_name_loc'].'</li>';	
-}else{
 	$breadcrumb_active  = '<li>';
 	$breadcrumb_active .= '<a href="home.php?m='.$moduleEncode.'">';
 	$breadcrumb_active .= $row_permisson['sys_menu_name_loc'];
 	$breadcrumb_active .= '</a>';	
 	$breadcrumb_active .= '</li>';	
-}
 
 
-
-for($index = 2; $index <= $level; $index++){
-	
-	if($index != $level){
-		$breadcrumb_level = ($index-1);
-		$cms_group_id = "(SELECT mod_cms_group_parent FROM mod_cms_group WHERE mod_cms_group_id = ".$parent." AND mod_cms_group_module_key = '".$moduleKey."' AND mod_cms_group_level = ".($level-1).")";
-	}else{
-		$breadcrumb_level = ($level-1);
-		$cms_group_id = $parent;
-	}
-	
-	
-	$sql = "SELECT mod_cms_group_id , mod_cms_group_name_loc FROM mod_cms_group LEFT JOIN mod_cms_group_name ON mod_cms_group_id = mod_cms_group_name_pid WHERE mod_cms_group_id = ".$cms_group_id." AND mod_cms_group_module_key = '".$moduleKey."' AND mod_cms_group_level = ".$breadcrumb_level." AND mod_cms_group_name_lang = '".$_SESSION['language']."'";
-	$stmt_breadcrumb = $conn->prepare($sql);
-	$stmt_breadcrumb->execute();
-	$row_breadcrumb = $stmt_breadcrumb->fetch();
-	$href_page = 'home.php?l='.$index.'&amp;p='.$row_breadcrumb['mod_cms_group_id'].'&amp;m='.$moduleEncode;	
-	$breadcrumb_active .= '<li>';
-	$breadcrumb_active .= '<a href="'.$href_page.'">';
-	$breadcrumb_active .= $row_breadcrumb['mod_cms_group_name_loc'];
-	$breadcrumb_active .= '</a>';	
-	$breadcrumb_active .= '</li>';	
-	
-	$breadcrumb_name = $row_breadcrumb['mod_cms_group_name_loc'];
-}
-unset($breadcrumb_level);
-unset($cms_group_id);
-
-
-
-$href_page = 'home.php?l='.$level.'&amp;p='.$parent.'&amp;m='.$moduleEncode; 
-
-//btn create
-if($level == $config_depth){
-	$btn_create['link'] = 'home.php?l='.$level.'&amp;p='.$parent.'&amp;m='.base64_encode($menu_id.'|mod_cms|create_content.php|'.$moduleKey); 
-	$btn_create['name'] = $language['cms_create_content'];
-}else{
-	$btn_create['link'] = 'home.php?l='.$level.'&amp;p='.$parent.'&amp;m='.base64_encode($menu_id.'|mod_cms|create_group.php|'.$moduleKey); 
-	$btn_create['name'] = $language['cms_create_group'];
-}
 
 $_plugin_list .= '
 
@@ -91,6 +47,10 @@ $_plugin_list .= '
 $_plugin_list .= '
 <link rel="stylesheet" href="mod_contact/contact.css" />
 <script src="mod_contact/contact.js"></script>
+<script>
+var warning_text1 = "'.$language['error'].'";
+var warning_text2 = "'.$language['min_checkbox'].'";
+</script>
 ';
 ?>
 
@@ -117,8 +77,11 @@ $_plugin_list .= '
 
               <div class="box-tools pull-right">
                 <div class="has-feedback">
-                  <input type="text" class="form-control input-sm" placeholder="Search Mail">
+	            <form name="search_form" method="get" action="home.php">    
+                  <input type="search" name="search" class="form-control input-sm" placeholder="<?php echo $language['search']; ?>">
                   <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <input type="hidden" name="m" value="<?php echo $moduleEncode; ?>">
+	            </form>  
                 </div>
               </div>
               <? /* /.box-tools */ ?>
@@ -130,20 +93,24 @@ $_plugin_list .= '
                 <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
                 </button>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                  <button type="button" class="btn btn-default btn-sm delete_btn"><i class="fa fa-trash-o"></i></button>
+                  <button type="button" class="btn btn-default btn-sm refresh_btn"><i class="fa fa-refresh"></i></button>
                 </div>
-                <? /* /.btn-group */ ?>
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                 <div class="pull-right">
 				<?php
-				    $perpage = 20;
+				    $perpage = 15;
 				    if(isset($_GET['pg'])){
 						$pagging = intval($_GET['pg']);
+					
+						$next_page = $pagging+1;
+						$prev_page = $pagging-1;
 					}else{
 						$pagging = 0;
+
+						$next_page = 2;
+						$prev_page = 0;						
 					}
+					
 					$page = $pagging;
 					if($pagging > 0){
 						$pagging = ($pagging-1) * $perpage;
@@ -164,33 +131,51 @@ $_plugin_list .= '
 					  AND mod_cotact_type = 'post'
 					  AND mod_cotact_staus != 'delete'";
 					  
-					if(isset($_POST['table_search'])){ //bindValue search
-						$sql .= " AND mod_cotact_title LIKE :keywords";
-						$sql .= " AND mod_cotact_detail LIKE :keywords";
+					if(isset($_GET['search'])){ //bindValue search
+						$sql .= " AND (mod_cotact_title LIKE :keywords";
+						$sql .= " OR mod_cotact_detail LIKE :keywords )";
 					}   
 					
 	                $stmt_group = $conn->prepare($sql);
 	                
-	                if(isset($_POST['table_search'])){ //bindValue search
-	                	$stmt_group->bindValue(':keywords', '%' . $_POST['table_search'] . '%');
+	                if(isset($_GET['search'])){ //bindValue search
+	                	$stmt_group->bindValue(':keywords', '%' . $_GET['search'] . '%');
 	                }
 					$stmt_group->execute();
 					$contentCount = $stmt_group->rowCount();
 					$sql = $sql . " ORDER BY mod_cotact_createDate DESC LIMIT ".$pagging.",".$perpage;
-					    
 
+					
+					$maxPage = ceil($contentCount/$perpage);
+
+					if($next_page <= $maxPage){
+						$next_staus = 'data-page="'.$next_page.'"';
+					}else{
+						$next_staus = 'disabled="disabled"';
+					}
+					
+					if($prev_page >= 1){
+						$prev_staus = 'data-page="'.$prev_page.'"';
+					}else{
+						$prev_staus = 'disabled="disabled"';
+					}
+					
 				?>
 							                
                   <?php 
 	                  echo $pagging+1;
 	                  echo '-';
-	                  echo $pagging+$perpage;
+	                  if(($pagging+$perpage) < $contentCount){
+	                  	echo $pagging+$perpage;
+	                  }else{
+		                echo $contentCount;
+	                  }
 	                  echo '/';
 	                  echo $contentCount; 
 	              ?>
                   <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                    <button type="button" class="btn btn-default btn-sm btn-swapPage" <?php echo $prev_staus; ?>><i class="fa fa-chevron-left"></i></button>
+                    <button type="button" class="btn btn-default btn-sm btn-swapPage" <?php echo $next_staus; ?>><i class="fa fa-chevron-right"></i></button>
                   </div>
                   <? /* /.btn-group */ ?>
                 </div>
@@ -201,6 +186,9 @@ $_plugin_list .= '
                   <tbody>
                 <?php	
 	                $stmt_group = $conn->prepare($sql);
+	                if(isset($_GET['search'])){ //bindValue search
+	                	$stmt_group->bindValue(':keywords', '%' . $_GET['search'] . '%');
+	                }	                
 					$stmt_group->execute();			
 					while($row_group = $stmt_group->fetch()){ 
 						$detail = strRip($row_group['mod_cotact_detail'],100);
@@ -227,8 +215,8 @@ $_plugin_list .= '
 						
 						
 				?>			                  
-                  <tr <?php echo $read_staus; ?>>
-                    <td class="mailbox-checkbox"><input type="checkbox"></td>
+                  <tr <?php echo $read_staus; ?> data-id="<?php echo $row_group['mod_cotact_id']; ?>">
+                    <td class="mailbox-checkbox"><input type="checkbox" value="<?php echo $row_group['mod_cotact_id']; ?>"></td>
                     <td class="mailbox-star"><a href="#"><i class="fa <?php echo $fav_staus; ?> text-yellow"></i></a></td>
                     <td class="mailbox-reply"><?php echo $reply_staus; ?></td>
                     <td class="mailbox-name"><a href="read-mail.html"><?php echo $row_group['owner_name']; ?></a></td>
@@ -250,29 +238,7 @@ $_plugin_list .= '
               <? /* /.mail-box-messages */ ?>
             </div>
             <? /* /.box-body */ ?>
-            <div class="box-footer no-padding">
-              <div class="mailbox-controls">
-                <? /* Check all button */ ?>
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
-                </button>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
-                </div>
-                <? /* /.btn-group */ ?>
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
-                <div class="pull-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
-                  </div>
-                  <? /* /.btn-group */ ?>
-                </div>
-                <? /* /.pull-right */ ?>
-              </div>
-            </div>
+
           </div>
           <? /* /. box */ ?>
         </div>

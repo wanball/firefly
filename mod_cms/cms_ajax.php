@@ -3,6 +3,7 @@ require ("../inc/config.inc.php");
 require ("../inc/connectdb.inc.php");
 require ("../inc/function.inc.php");
 
+if(isset($_SESSION['MEMBER_ID'])){
 if(isset($_POST['pid'])){
     $language = language_data();
 
@@ -141,6 +142,7 @@ if(isset($_POST['pid'])){
     }
     exit();
 } 
+}
 die('<script>
     parent.returnTempError();
 </script>'

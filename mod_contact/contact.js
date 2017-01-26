@@ -18,7 +18,7 @@ $(document).ready(function() {
     });
 
     //Enable check and uncheck all functionality
-    $(".checkbox-toggle").click(function() {
+    $(".checkbox-toggle").on("click", function(e) {
         var clicks = $(this).data('clicks');
         if (clicks) {
             //Uncheck all checkboxes
@@ -33,7 +33,7 @@ $(document).ready(function() {
     });
 
     //Handle starring for glyphicon and font awesome
-    $(".mailbox-star").click(function(e) {
+    $(".mailbox-star").on("click", function(e) {
         e.preventDefault();
         //detect type
         var $this = $(this).find("a > i");
@@ -51,4 +51,38 @@ $(document).ready(function() {
             $this.toggleClass("fa-star-o");
         }
     });
+    
+    
+    $( ".btn-swapPage:enabled" ).on("click", function(e) {
+	   var page = $(this).attr('data-page'); 
+	   var url = window.location.href ;
+	   var res = url.split("&pg=");
+	   window.location.href = res[0] + '&pg='+ page;
+	});  
+	
+	$( ".refresh_btn" ).on("click", function(e) {
+		window.location.reload();
+	});  
+	
+	$( ".delete_btn" ).on("click", function(e) {
+		var numberOfChecked = $('input:checkbox:checked').length;
+		if(numberOfChecked == 0){
+            var res = warning_text2.replace('|:NUM:|', 1);
+            swal(warning_text1, res, "error");
+        }else{
+			$('input:checkbox:checked').each(function () {
+			    var ThisVal = $(this).val();
+
+				$.post( "mod_contact/contact-action.php", { id: ThisVal, type: "delete" })
+				  .done(function( data ) {
+	    
+				    $('.mailbox-messages tr[data-id="'+ThisVal+'"]').remove();
+					var numberOfCheckbox = $('.mailbox-messages tr').length;
+					if(numberOfCheckbox == 0){
+						window.location.reload();
+					}
+  				});	
+			});	        
+        }
+	});  	
 });

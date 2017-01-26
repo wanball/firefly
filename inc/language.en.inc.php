@@ -115,4 +115,5 @@ $language['upload_failed'] = 'Sorry, Uploading File(s) failed. Please try again.
 $language['ext_support'] = 'Support file ';
 $language['image_support'] = 'All image files are accepted';
 $language['video_support'] = 'All video files are accepted';
+$language['min_checkbox'] = 'please select a minimum of |:NUM:| item';
 ?>
