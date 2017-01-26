@@ -154,7 +154,7 @@ $(function() {
         swapSubDistrict(name, id_val);
     });
 
-    $('input.inputUpload').on("change", function(e) {
+    $('input.inputUpload , input.inputGallery').on("change", function(e) {
         var fileUpload = $(this);
         var num_file = parseInt(fileUpload.get(0).files.length);
         var limit_file = parseInt(fileUpload.attr('data-limit'));
@@ -181,9 +181,10 @@ $(function() {
             $('#action_frame').attr({
                 action: "mod_cms/cms_ajax.php"
             }).append('<input type="hidden" value="' + patten_name + '" name="pid" >').submit();
+
+            $('input[type="file"]').prop('disabled', true);
         }
     });
-
 
     $(".displayUpload").sortable({
         stop: function(e, ui) {
@@ -199,6 +200,7 @@ $(function() {
         }
     });
     $(".displayUpload").disableSelection();
+
 });
 
 
@@ -242,8 +244,9 @@ function swapSubDistrict(name, id_val) {
         });
 }
 
-function returnTempFile(data) {;
+function returnTempFile(data) {
     var num_upload = parseInt($('#display_' + action_id + ' li').length);
+    var path = data.path;
 
     $.each(data.success, function(i, obj) {
 
@@ -251,9 +254,9 @@ function returnTempFile(data) {;
         var row = '';
         row += '<li data-pos="' + num_upload + '">';
         row += '<button type="button" class="btn bg-red btn-sm pull-right" onclick="RemoveTempFile(' + action_id + ',' + num_upload + ',\'' + obj.file + '\');"><i class="fa fa-trash-o"></i></button>';
-        row += '<a class="info-box" target="_blank" href="../upload/temp/' + obj.file + '">';
+        row += '<a class="info-box" target="_blank" href="' + path + obj.file + '">';
         row += '<span class="info-box-icon">';
-        row += '<img src="' + getMimes(obj.ext) + '" alt="" />';
+        row += '<i class="fa ' + getMimes(obj.ext) + '"></i>';
         row += '</span>';
         row += '<div class="info-box-content">';
         row += '<span class="info-box-text">' + obj.name + '</span>';
@@ -297,6 +300,7 @@ function clearTempFile() {
     });
 
     $('#Progress_' + action_id).fadeOut();
+    $('input[type="file"]').prop('disabled', false);
     action_id = 0;
 }
 
@@ -310,4 +314,48 @@ function RemoveTempFile(id, pid, name) {
         .done(function(data) {
             $('#display_' + id + ' li[data-pos="' + pid + '"]').remove();
         });
+}
+
+function returnGalleryFile(data) {
+    var num_upload = parseInt($('#display_' + action_id + ' li').length);
+    var path = data.path;
+
+    $.each(data.success, function(i, obj) {
+
+
+        var row = '';
+        row += '<li data-pos="' + num_upload + '">';
+        row += '<span class="mailbox-attachment-icon has-img">';
+        row += '<img onclick="$(\'li[data-pos=' + num_upload + ']\').find(\'a.group_view\').click();" src="thumbnail.php?w=200&h=150&p=' + path + obj.file + '" alt="' + obj.name + '">';
+        row += '</span>';
+        row += '<div class="mailbox-attachment-info">';
+        row += '<a href="' + path + obj.file + '" class="mailbox-attachment-name group_view group_view_' + action_id + '"><i class="fa fa-camera"></i>' + obj.name + '</a>';
+        row += '<span class="mailbox-attachment-size">';
+        row += obj.size;
+        row += '<a href="#" onclick="RemoveTempFile(' + action_id + ',' + num_upload + ',\'' + obj.file + '\'); return false;" class="btn btn-default btn-xs pull-right"><i class="fa fa-trash-o"></i></a>';
+        row += '</span>';
+        row += '</div>';
+        row += '<input type="hidden" name="fileUpload_' + action_id + '[' + num_upload++ + ']" value="' + obj.file + '">';
+        row += '</li>';
+
+        $('#display_' + action_id).append(row).find('li').fadeIn(500);
+    });
+
+
+    var num_error = data.errors.length;
+    if (num_error > 0) {
+        var err_msg = '';
+        err_msg += data.errors[0];
+        if (num_error > 1) {
+            err_msg += ' ' + and_text + ' ';
+            err_msg += data.errors[1];
+        }
+
+
+        swal(warning_text1, err_msg, "error");
+    }
+
+    $(".group_view_" + action_id).colorbox({ rel: 'group_view_' + action_id, transition: "fade", maxHeight: "80%" });
+
+    clearTempFile();
 }

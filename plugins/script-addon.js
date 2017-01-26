@@ -89,7 +89,7 @@ function getMimes(ext) {
         case 'css':
         case 'xml':
         case 'html':
-            text = "browser.svg";
+            text = "fa-internet-explorer";
             break;
         case 'ods':
         case 'otf':
@@ -99,11 +99,11 @@ function getMimes(ext) {
         case 'xlsx':
         case 'xlsm':
         case 'numbers':
-            text = "calc.svg";
+            text = "fa-file-excel-o";
             break;
         case 'swf':
         case 'fla':
-            text = "flash.svg";
+            text = "fa-video-camera";
             break;
         case 'odp':
         case 'otp':
@@ -114,7 +114,7 @@ function getMimes(ext) {
         case 'potm':
         case 'ppsx':
         case 'key':
-            text = "impress.svg";
+            text = "fa-file-powerpoint-o";
             break;
         case 'aac':
         case 'ac3':
@@ -127,10 +127,10 @@ function getMimes(ext) {
         case 'ogg':
         case 'wav':
         case 'wma':
-            text = "music.svg";
+            text = "fa-file-audio-o";
             break;
         case 'pdf':
-            text = "pdf.svg";
+            text = "fa-file-pdf-o";
             break;
         case 'bmp':
         case 'cr2':
@@ -145,10 +145,10 @@ function getMimes(ext) {
         case 'tiff':
         case 'wbmp':
         case 'webp':
-            text = "photo.svg";
+            text = "fa-file-image-o";
             break;
         case 'txt':
-            text = "text.svg";
+            text = "fa-file-text-o";
             break;
         case '264':
         case '3ga':
@@ -169,7 +169,7 @@ function getMimes(ext) {
         case 'webm':
         case 'wmv':
         case 'ts':
-            text = "video.svg";
+            text = "fa-file-video-o";
             break;
         case 'odt':
         case 'ott':
@@ -177,7 +177,7 @@ function getMimes(ext) {
         case 'dot':
         case 'docx':
         case 'page':
-            text = "writer.svg";
+            text = "fa-file-word-o";
             break;
         case '7z':
         case 'tar.bz2':
@@ -187,10 +187,10 @@ function getMimes(ext) {
         case 'tar.gz':
         case 'yz1':
         case 'zip':
-            text = "zip.svg";
+            text = "fa-file-archive-o";
             break;
         default:
-            text = "file.svg";
+            text = "fa-file-file-o";
     }
-    return 'images/icon/' + text;
+    return text;
 }

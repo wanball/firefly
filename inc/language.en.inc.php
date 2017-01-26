@@ -113,4 +113,6 @@ $language['size_error'] = 'File size must be exactly ';
 $language['ext_error'] = 'Extension not allowed, please choose a ';
 $language['upload_failed'] = 'Sorry, Uploading File(s) failed. Please try again.';
 $language['ext_support'] = 'Support file ';
+$language['image_support'] = 'All image files are accepted';
+$language['video_support'] = 'All video files are accepted';
 ?>

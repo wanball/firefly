@@ -109,6 +109,9 @@ $_plugin_list .= '
 <script src="//cdn.ckeditor.com/4.6.1/standard/ckeditor.js"></script>
 <!-- InputMask -->
 <script src="plugins/jquery.inputmask.bundle.min.js"></script>
+<!-- Colorbox  -->
+<link rel="stylesheet" href="plugins/colorbox/colorbox.css">
+<script src="plugins/colorbox/jquery.colorbox-min.js"></script>
 <!-- timeago -->
 <script src="plugins/timeago/jquery.timeago.min.js"></script>  
 ';
@@ -834,7 +837,7 @@ var and_text = "'.$language['and'].'";
 													$value = $value.'" multiple="multiple';
 												}
 
-												echo '<ul class="displayUpload" id="display_'.$pattern_id.'"></ul>';
+												echo '<ul class="displayUpload clearfix" id="display_'.$pattern_id.'"></ul>';
 												echo '<input type="file" class="inputUpload" id="pattern_'.$pattern_id.'" name="pattern_'.$pattern_id.'[]" data-limit="'.$value.'" accept="'.$placeholder.'">';
 												echo '<img src="images/bar-loading.gif" alt="loading" class="upload_Progress" id="Progress_'.$pattern_id.'" >';
 
@@ -844,6 +847,38 @@ var and_text = "'.$language['and'].'";
 
 												$label = $label_upload;
 
+											
+											//File Gallery	
+											}else if($row_pattern['mod_cms_pattern_format'] == 25){
+
+												$label_upload = '<ul class="upload_condition">';
+												if($label != ''){
+													$label_upload .=  '<li>';
+													$label_upload .=  $label;
+													$label_upload .=  '</li>';
+												}
+													$label_upload .=  '<li>';
+													$label_upload .=  $language['image_support'];
+													$label_upload .=  '</li>';
+													$label_upload .=  '<li>';
+													$label_upload .=  $max_size;
+													$label_upload .=  '</li>';
+
+												if($value > 1){
+
+													$label_upload .=  '<li>';
+													$label_upload .=  str_replace('|:NUM:|',$value,$language['limit_error']);
+													$label_upload .=  '</li>';
+
+													$value = $value.'" multiple="multiple';
+												}
+																								
+												echo '<ul class="displayUpload displayGallery clearfix" id="display_'.$pattern_id.'"></ul>';
+												echo '<input type="file" class="inputGallery" id="pattern_'.$pattern_id.'" name="pattern_'.$pattern_id.'[]" data-limit="'.$value.'" accept="image/*">';
+												echo '<img src="images/bar-loading.gif" alt="loading" class="upload_Progress" id="Progress_'.$pattern_id.'" >';
+												$label_upload .= "</ul>";
+
+												$label = $label_upload;												
 											}
 
 												if($label != ''){

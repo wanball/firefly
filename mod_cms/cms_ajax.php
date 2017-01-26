@@ -7,15 +7,10 @@ if(isset($_POST['pid'])){
     $language = language_data();
 
         $id = intval($_POST['pid']);
-        $sql = "SELECT mod_cms_pattern_placeholder  FROM mod_cms_pattern WHERE mod_cms_pattern_id = ".$id; 
+        $sql = "SELECT mod_cms_pattern_format , mod_cms_pattern_placeholder  FROM mod_cms_pattern WHERE mod_cms_pattern_id = ".$id; 
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $expension  = str_replace('.','',$row['mod_cms_pattern_placeholder']);
-        $expensions = explode(',',$expension);
-        unset($expension);
-        unset($row);
 
         $target_dir1 = '../'._UPLOAD_DIR_;
         $target_dir2 = $target_dir1."temp";
@@ -27,13 +22,25 @@ if(isset($_POST['pid'])){
 
         $Success = array();
         $errors = array();
+
+        if($row['mod_cms_pattern_format'] == 24){ //config ext
+            $expension  = str_replace('.','',$row['mod_cms_pattern_placeholder']);
+            $expensions = explode(',',$expension);
+            unset($expension);
+        }else if($row['mod_cms_pattern_format'] == 25){ //image only
+            $expensions[] = 'jpg';
+            $expensions[] = 'jpeg';
+            $expensions[] = 'png';
+            $expensions[] = 'gif';
+            $expensions[] = 'tiff';
+            $expensions[] = 'bmp';
+        }
+
         $error_text[0] = $language['ext_error'] . natural_language_join($expensions,$language['or']); 
         $error_text[1] = $language['size_error'].formatSizeUnits($max_size); 
 
         $pattent_name = "pattern_".$id;
         foreach ($_FILES[$pattent_name]['name'] as $key => $file_name){
-            
-
 
             $file_size =$_FILES[$pattent_name]['size'][$key];
 
@@ -70,12 +77,20 @@ if(isset($_POST['pid'])){
     $data = array();
     $data['success'] = $Success;
     $data['errors'] = $errors;
+    $data['path'] = _UPLOAD_DIR_."temp/";
 
-    echo '<script>
-    var obj = ' . json_encode($data) . ';
-        parent.returnTempFile(obj);
-    </script>';
-
+    if($row['mod_cms_pattern_format'] == 24){ //config ext
+        echo '<script>
+        var obj = ' . json_encode($data) . ';
+            parent.returnTempFile(obj);
+        </script>';
+    }else if($row['mod_cms_pattern_format'] == 25){ //image only
+        echo '<script>
+        var obj = ' . json_encode($data) . ';
+            parent.returnGalleryFile(obj);
+        </script>';
+    }
+    unset($row);
 
     exit();
 }else if(isset($_POST['type'])){

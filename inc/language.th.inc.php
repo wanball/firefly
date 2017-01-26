@@ -109,8 +109,10 @@ $language['province'] = 'จังหวัด';
 $language['district'] = 'อำเภอ';
 $language['sub_district'] = 'ตำบล';
 $language['limit_error'] = 'คุณสามารถอัพโหลดได้สูงสุด |:NUM:| ไฟล์';
-$language['size_error'] = 'ขนาดของไฟล์ต้องไม่เกิน ';
+$language['size_error'] = 'ขนาดรวมของไฟล์ต้องไม่เกิน ';
 $language['ext_error'] = 'นามสกุลไฟล์ไม่ถูกต้อง โปรดเลือกเฉพาะนามสกุล ';
 $language['upload_failed'] = 'ไม่สามารถอัพโหลดไฟล์ได้ โปรดทดลองใหม่อีกครั้ง';
 $language['ext_support'] = 'สนับสนุนไฟล์นามสกุล ';
+$language['image_support'] = 'สนับสนุนไฟล์ภาพเท่านั้น';
+$language['video_support'] = 'สนับสนุนไฟล์วีดีโอเท่านั้น';
 ?>
