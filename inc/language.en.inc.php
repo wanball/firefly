@@ -116,4 +116,8 @@ $language['ext_support'] = 'Support file ';
 $language['image_support'] = 'All image files are accepted';
 $language['video_support'] = 'All video files are accepted';
 $language['min_checkbox'] = 'please select a minimum of |:NUM:| item';
+$language['video_upload'] = 'Upload';
+$language['video_embed'] = 'Embed';
+$language['video_link'] = 'Link';
+$language['url_incorrect'] = 'Incorrect Url';
 ?>

@@ -35,6 +35,11 @@ if(isset($_POST['pid'])){
             $expensions[] = 'gif';
             $expensions[] = 'tiff';
             $expensions[] = 'bmp';
+        }else if($row['mod_cms_pattern_format'] == 26){ //video only
+            $expensions[] = 'ogv';
+            $expensions[] = 'ogg';
+            $expensions[] = 'mp4';
+            $expensions[] = 'webm';
         }
 
         $error_text[0] = $language['ext_error'] . natural_language_join($expensions,$language['or']); 
@@ -80,17 +85,17 @@ if(isset($_POST['pid'])){
     $data['errors'] = $errors;
     $data['path'] = _UPLOAD_DIR_."temp/";
 
+    echo '<script>
+    var obj = ' . json_encode($data) . ';';
+
     if($row['mod_cms_pattern_format'] == 24){ //config ext
-        echo '<script>
-        var obj = ' . json_encode($data) . ';
-            parent.returnTempFile(obj);
-        </script>';
+        echo 'parent.returnTempFile(obj);';
     }else if($row['mod_cms_pattern_format'] == 25){ //image only
-        echo '<script>
-        var obj = ' . json_encode($data) . ';
-            parent.returnGalleryFile(obj);
-        </script>';
+        echo 'parent.returnGalleryFile(obj);';
+    }else if($row['mod_cms_pattern_format'] == 26){ //video only
+        echo 'parent.returnVideoFile(obj);';
     }
+    echo '</script>';
     unset($row);
 
     exit();

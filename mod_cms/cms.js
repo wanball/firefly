@@ -154,7 +154,7 @@ $(function() {
         swapSubDistrict(name, id_val);
     });
 
-    $('input.inputUpload , input.inputGallery').on("change", function(e) {
+    $('input.inputUpload , input.inputGallery , input.inputVideo').on("change", function(e) {
         var fileUpload = $(this);
         var num_file = parseInt(fileUpload.get(0).files.length);
         var limit_file = parseInt(fileUpload.attr('data-limit'));
@@ -326,7 +326,7 @@ function returnGalleryFile(data) {
         var row = '';
         row += '<li data-pos="' + num_upload + '">';
         row += '<span class="mailbox-attachment-icon has-img">';
-        row += '<img onclick="$(\'li[data-pos=' + num_upload + ']\').find(\'a.group_view\').click();" src="thumbnail.php?w=200&h=150&p=' + path + obj.file + '" alt="' + obj.name + '">';
+        row += '<img onclick="$(\'li[data-pos=' + num_upload + ']\').find(\'a.group_view\').click();" src="thumbnail.php?w=200&h=150&p=' + path + obj.file + '" alt="">';
         row += '</span>';
         row += '<div class="mailbox-attachment-info">';
         row += '<a href="' + path + obj.file + '" class="mailbox-attachment-name group_view group_view_' + action_id + '"><i class="fa fa-camera"></i>' + obj.name + '</a>';
@@ -358,4 +358,75 @@ function returnGalleryFile(data) {
     $(".group_view_" + action_id).colorbox({ rel: 'group_view_' + action_id, transition: "fade", maxHeight: "80%" });
 
     clearTempFile();
+}
+
+function returnVideoFile(data) {
+    var num_upload = parseInt($('#display_' + action_id + ' li').length);
+    var path = data.path;
+
+    $.each(data.success, function(i, obj) {
+
+
+        var row = '';
+        row += '<li data-pos="' + num_upload + '">';
+        row += '<span class="mailbox-attachment-icon has-img">';
+        row += '<i class="fa fa-video-camera" onclick="$(\'li[data-pos=' + num_upload + ']\').find(\'a.group_view\').click();"></i>';
+        row += '</span>';
+        row += '<div class="mailbox-attachment-info">';
+        row += '<a href="' + path + obj.file + '" class="mailbox-attachment-name"><i class="fa fa-play"></i>' + obj.name + '</a>';
+        row += '<span class="mailbox-attachment-size">';
+        row += obj.size;
+        row += '<a href="#" onclick="RemoveTempFile(' + action_id + ',' + num_upload + ',\'' + obj.file + '\'); return false;" class="btn btn-default btn-xs pull-right"><i class="fa fa-trash-o"></i></a>';
+        row += '</span>';
+        row += '</div>';
+        row += '<input type="hidden" name="fileUpload_' + action_id + '[' + num_upload++ + ']" value="' + obj.file + '">';
+        row += '</li>';
+
+        $('#display_' + action_id).append(row).find('li').show();
+    });
+
+
+    var num_error = data.errors.length;
+    if (num_error > 0) {
+        var err_msg = '';
+        err_msg += data.errors[0];
+        if (num_error > 1) {
+            err_msg += ' ' + and_text + ' ';
+            err_msg += data.errors[1];
+        }
+
+
+        swal(warning_text1, err_msg, "error");
+    }
+
+    clearTempFile();
+}
+
+function addVideo(id) {
+    var path = $('input[name="pattern_' + id + '_input_video"]').val();
+    var type = $('input[name="videoType_' + id + '"]:checked').val();
+
+    if (valid_url(path, type)) {
+        var num_upload = parseInt($('#display_' + id + ' li').length);
+        var obj_file = '';
+        var row = '';
+        row += '<li data-pos="' + num_upload + '">';
+        row += '<span class="mailbox-attachment-icon has-img">';
+        row += '<i class="fa fa-video-camera" onclick="$(\'li[data-pos=' + num_upload + ']\').find(\'a.group_view\').click();"></i>';
+        row += '</span>';
+        row += '<div class="mailbox-attachment-info">';
+        row += '<a href="' + obj_file + '" class="mailbox-attachment-name"><i class="fa fa-play"></i>' + obj_file + '</a>';
+        row += '<span class="mailbox-attachment-size">';
+        //row += obj.size;
+        row += '<a href="#" onclick="RemoveTempFile(' + id + ',' + num_upload + ',\'' + obj_file + '\'); return false;" class="btn btn-default btn-xs pull-right"><i class="fa fa-trash-o"></i></a>';
+        row += '</span>';
+        row += '</div>';
+        row += '<input type="hidden" name="fileUpload_' + id + '[' + num_upload++ + ']" value="' + obj_file + '">';
+        row += '</li>';
+
+        $('#display_' + id).append(row).find('li').show();
+
+    } else {
+        swal(warning_text1, warning_text5, "error");
+    }
 }

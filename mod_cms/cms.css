@@ -185,7 +185,8 @@ img.cms_thumbnail {
     margin-top: 12px;
 }
 
-.displayGallery>li {
+.displayGallery>li,
+.displayVideo>li {
     border: 1px solid #eee;
     float: left;
     margin-bottom: 10px;
@@ -194,18 +195,33 @@ img.cms_thumbnail {
     display: none;
 }
 
-.displayGallery>li a.mailbox-attachment-name {
+.displayGallery>li a.mailbox-attachment-name,
+.displayVideo>li a.mailbox-attachment-name {
     display: block;
     height: 22px;
     overflow: hidden;
     white-space: nowrap;
 }
 
-.displayGallery>li a.mailbox-attachment-name>i {
+.displayGallery>li a.mailbox-attachment-name>i,
+.displayVideo>li a.mailbox-attachment-name>i {
     margin-right: 3px;
 }
 
-.displayGallery>li .has-img img {
+.displayGallery>li .has-img img,
+.displayVideo>li .has-img img {
+    cursor: pointer;
+}
+
+div.video_choose {
+    margin-top: 10px !important;
+}
+
+div.video_choose input {
+    margin-top: 0;
+}
+
+.addVideo_btn {
     cursor: pointer;
 }
 

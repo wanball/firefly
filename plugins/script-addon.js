@@ -194,3 +194,23 @@ function getMimes(ext) {
     }
     return text;
 }
+
+function valid_url(url, type) {
+    if (type == 'youtube') {
+        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+    } else if (type == 'facebook') {
+        var regExp = /^(https?:\/\/)?((w{3}\.)?)facebook.com\/.*/;
+    } else if (type == 'twitter') {
+        var regExp = /^(https?:\/\/)?((w{3}\.)?)twitter\.com\/(#!\/)?[a-z0-9_]+$/;
+    } else if (type == 'viemo') {
+        var regExp = /^(https?:\/\/)?((w{3}\.)?)vimeo.com\/(\d+)($|\/)/;
+    } else if (type == 'link') {
+        var regExp = /^(https?:\/\/)?((w{3}\.)?).*(\.mp4|\.ogv|\.ogg|\.webm)$/;
+    }
+
+    var match = url.match(regExp);
+
+
+    return match;
+
+}

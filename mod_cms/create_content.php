@@ -129,6 +129,7 @@ var warning_text1 = "'.$language['error'].'";
 var warning_text2 = "'.$language['limit_error'].'";
 var warning_text3 = "'.$language['upload_failed'].'";
 var warning_text4 = "'.$max_size.'";
+var warning_text5 = "'.$language['url_incorrect'].'";
 var and_text = "'.$language['and'].'";
 </script>
 ';
@@ -878,7 +879,65 @@ var and_text = "'.$language['and'].'";
 												echo '<img src="images/bar-loading.gif" alt="loading" class="upload_Progress" id="Progress_'.$pattern_id.'" >';
 												$label_upload .= "</ul>";
 
-												$label = $label_upload;												
+												$label = $label_upload;		
+
+											
+											//File Video	
+											}else if($row_pattern['mod_cms_pattern_format'] == 26){
+												$label_upload = '<ul class="upload_condition">';
+												if($label != ''){
+													$label_upload .=  '<li>';
+													$label_upload .=  $label;
+													$label_upload .=  '</li>';
+												}
+													$label_upload .=  '<li>';
+													$label_upload .=  $language['video_support'];
+													$label_upload .=  '</li>';
+													$label_upload .=  '<li>';
+													$label_upload .=  $max_size;
+													$label_upload .=  '</li>';
+
+												if($value > 1){
+
+													$label_upload .=  '<li>';
+													$label_upload .=  str_replace('|:NUM:|',$value,$language['limit_error']);
+													$label_upload .=  '</li>';
+
+													$value = $value.'" multiple="multiple';
+												}
+												$label_upload .= "</ul>";
+
+												echo '<ul class="displayUpload displayVideo clearfix" id="display_'.$pattern_id.'"></ul>';
+												echo '<div class="nav-tabs-custom">';
+												echo '<ul class="nav nav-tabs">';
+												echo '<li class="active"><a href="#tab_'.$pattern_id.'_1" data-toggle="tab">'.$language['video_upload'].'</a></li>';
+												echo '<li><a href="#tab_'.$pattern_id.'_2" data-toggle="tab">'.$language['video_embed'].'</a></li>';
+												echo '</ul>';
+												echo '<div class="tab-content">';
+												echo '<div class="tab-pane active" id="tab_'.$pattern_id.'_1">';
+												echo '<input type="file" class="inputVideo" id="pattern_'.$pattern_id.'" name="pattern_'.$pattern_id.'[]" data-limit="'.$value.'" accept="video/*">';
+												echo '<img src="images/bar-loading.gif" alt="loading" class="upload_Progress" id="Progress_'.$pattern_id.'" >';
+												echo $label_upload;
+												echo '</div>';
+												echo '<div class="tab-pane clearfix" id="tab_'.$pattern_id.'_2">';
+												echo '<div class="row">';
+												echo '<div class="col-lg-12"><div class="input-group">';
+												echo '<input type="text" name="pattern_'.$pattern_id.'_input_video" class="form-control"'.$attribute.'>';
+												echo '<span class="input-group-addon addVideo_btn" onclick="addVideo('.$pattern_id.');"><i class="fa fa-plus-square"></i></span>';
+												echo '</div></div>';
+												echo '</div>';
+												echo '<div class="row">';
+												echo '<div class="col-lg-3 radio video_choose"><label><input name="videoType_'.$pattern_id.'" value="youtube" type="radio" checked="checked"> Youtube </label></div>';
+												echo '<div class="col-lg-3 radio video_choose"><label><input name="videoType_'.$pattern_id.'" value="facebook" type="radio"> Facebook </label></div>';
+												echo '<div class="col-lg-3 radio video_choose"><label><input name="videoType_'.$pattern_id.'" value="viemo" type="radio"> Viemo </label></div>';
+												echo '<div class="col-lg-3 radio video_choose"><label><input name="videoType_'.$pattern_id.'" value="link" type="radio"> Link </label></div>';
+												echo '</div>';
+												echo '</div>';
+												echo '</div>';
+												echo '</div>';
+
+                  
+												$label = '';	
 											}
 
 												if($label != ''){
