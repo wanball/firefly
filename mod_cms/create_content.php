@@ -133,6 +133,8 @@ var warning_text5 = "'.$language['url_incorrect'].'";
 var and_text = "'.$language['and'].'";
 </script>
 ';
+
+$displayVideo = 0;
 ?>
     <section class="content-header">
       <h1>
@@ -937,7 +939,8 @@ var and_text = "'.$language['and'].'";
 												echo '</div>';
 
                   
-												$label = '';	
+												$label = '';
+												$displayVideo++;	
 											}
 
 												if($label != ''){
@@ -1184,4 +1187,8 @@ var and_text = "'.$language['and'].'";
 <iframe id="action_iframe" name="action_iframe" src="#"></iframe>
 </form>			
 </section>
-        
+<?php if($displayVideo > 0){
+$_plugin_list .= '
+<script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+<script src="mod_cms/cms_api.php"></script>';
+} ?>       

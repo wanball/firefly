@@ -31,5 +31,9 @@
 	define('_reCAPTCHA_SECRET_','6LcYgwcUAAAAAEyqt0esKBBjq1tanRByjedXWD7s');
 	/*------------ google ID ------------*/
 	define('_KEY_FILE_LOCATION_','webengine-b673f8bcb48b.json');
+	define('_YOUTUBE_KEY_','AIzaSyD1ohS4NPMQY2fFSDILS2okg9fm2Bg4RUE');
+	/*------------ facebook ID ------------*/
+	define('_FB_APP_ID_','379204692436012');
+	define('_FB_SECRET_','d7e036243386c6d2b64b76ed443d92e2');
 	
 ?>

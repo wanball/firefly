@@ -214,3 +214,24 @@ function valid_url(url, type) {
     return match;
 
 }
+
+function youtube_parser(url) {
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    return (match && match[7].length == 11) ? match[7] : false;
+}
+
+function Prepending_http(prefix, s) {
+    if (s.substr(0, prefix.length) !== prefix) {
+        return prefix + s;
+    } else {
+        return s;
+    }
+}
+
+function facebook_parser(frame) {
+    var res = frame.split("videos");
+    var last_element = res[res.length - 1];
+    return last_element.replace(/\//g, "");
+
+}

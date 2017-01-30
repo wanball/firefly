@@ -200,7 +200,20 @@ $(function() {
         }
     });
     $(".displayUpload").disableSelection();
+    /*
+        if ($(".displayVideo").length > 0) {
 
+
+            var script = document.createElement('script');
+            script.type = "text/javascript";
+            script.src = "https://apis.google.com/js/client.js?onload=googleApiClientReady";
+            document.getElementsByTagName('body')[0].appendChild(script);
+
+
+            script.src = "mod_cms/cms_api.php";
+            document.getElementsByTagName('body')[0].appendChild(script);
+        }
+    */
 });
 
 
@@ -407,6 +420,7 @@ function addVideo(id) {
     var type = $('input[name="videoType_' + id + '"]:checked').val();
 
     if (valid_url(path, type)) {
+
         var num_upload = parseInt($('#display_' + id + ' li').length);
         var obj_file = '';
         var row = '';
@@ -417,16 +431,36 @@ function addVideo(id) {
         row += '<div class="mailbox-attachment-info">';
         row += '<a href="' + obj_file + '" class="mailbox-attachment-name"><i class="fa fa-play"></i>' + obj_file + '</a>';
         row += '<span class="mailbox-attachment-size">';
-        //row += obj.size;
+        row += type;
         row += '<a href="#" onclick="RemoveTempFile(' + id + ',' + num_upload + ',\'' + obj_file + '\'); return false;" class="btn btn-default btn-xs pull-right"><i class="fa fa-trash-o"></i></a>';
         row += '</span>';
         row += '</div>';
-        row += '<input type="hidden" name="fileUpload_' + id + '[' + num_upload++ + ']" value="' + obj_file + '">';
+        row += '<input type="hidden" name="fileUpload_' + id + '[' + num_upload + ']" value="' + obj_file + '">';
         row += '</li>';
 
         $('#display_' + id).append(row).find('li').show();
 
+        if (type == 'youtube') {
+            callDataYoutube(youtube_parser(path), id, num_upload);
+        } else if (type == 'viemo') {
+            callDataVimeo(encodeURIComponent(Prepending_http('https://', path)), id, num_upload);
+        } else if (type == 'facebook') {
+            callDataFacebook(facebook_parser(path), id, num_upload);
+        }
+        num_upload++;
+
     } else {
         swal(warning_text1, warning_text5, "error");
     }
+}
+
+function displayVideoCover(item, pid, pos) {
+    var name = item[0];
+    var image = item[1];
+
+    var display = '<div style="background-image: url(' + image + ');" title="' + name + '"></div>';
+    $('#display_' + pid + ' > li[data-pos="' + pos + '"]').find('.has-img').html(display);
+    $('#display_' + pid + ' > li[data-pos="' + pos + '"]').find('.mailbox-attachment-name ').html(' <i class = "fa fa-play" > < /i>' + name);
+
+    $('input[name="pattern_' + pid + '_input_video"]').val('');
 }
