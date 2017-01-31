@@ -195,6 +195,30 @@ function getMimes(ext) {
     return text;
 }
 
+function getFileExtension(filename) {
+    var re = /(?:\.([^.]+))?$/;
+
+    return re.exec(filename)[1];
+}
+
+function getVideoHeader(path) {
+    var ext = getFileExtension(path);
+    ext = ext.toLowerCase();
+    var text;
+    switch (ext) {
+        case 'mp4':
+            text = "video/mp4";
+            break;
+        case 'ogg':
+            text = "video/ogg";
+            break;
+        case 'webm':
+            text = "video/webm";
+            break;
+    }
+    return text;
+}
+
 function valid_url(url, type) {
     if (type == 'youtube') {
         var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
@@ -234,4 +258,17 @@ function facebook_parser(frame) {
     var last_element = res[res.length - 1];
     return last_element.replace(/\//g, "");
 
+}
+
+function getFileName(fullPath) {
+    return fullPath.replace(/^.*[\\\/]/, '');
+}
+
+function vimeo_embed(vid) {
+    var vimeo_Reg = /https?:\/\/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/;
+    var match = vid.match(vimeo_Reg);
+
+    if (match) {
+        return '<iframe src="https://player.vimeo.com/video/' + match[3] + '" width="640" height="480" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+    }
 }

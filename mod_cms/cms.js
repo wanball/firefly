@@ -386,14 +386,17 @@ function returnVideoFile(data) {
         row += '<i class="fa fa-video-camera" onclick="$(\'li[data-pos=' + num_upload + ']\').find(\'a.group_view\').click();"></i>';
         row += '</span>';
         row += '<div class="mailbox-attachment-info">';
-        row += '<a href="' + path + obj.file + '" class="mailbox-attachment-name"><i class="fa fa-play"></i>' + obj.name + '</a>';
+        row += '<a href="' + path + obj.file + '" onclick="openvideo($(this).attr(\'href\'), \'upload\'); return false;" class="mailbox-attachment-name"><i class="fa fa-play"></i>' + obj.name + '</a>';
         row += '<span class="mailbox-attachment-size">';
         row += obj.size;
         row += '<a href="#" onclick="RemoveTempFile(' + action_id + ',' + num_upload + ',\'' + obj.file + '\'); return false;" class="btn btn-default btn-xs pull-right"><i class="fa fa-trash-o"></i></a>';
         row += '</span>';
         row += '</div>';
-        row += '<input type="hidden" name="fileUpload_' + action_id + '[' + num_upload++ + ']" value="' + obj.file + '">';
+        row += '<input type="hidden" name="fileUpload_' + action_id + '_path[' + num_upload + ']" value="' + obj.file + '">';
+        row += '<input type="hidden" name="fileUpload_' + action_id + '_type[' + num_upload + ']" value="upload">';
         row += '</li>';
+
+        num_upload++;
 
         $('#display_' + action_id).append(row).find('li').show();
     });
@@ -429,13 +432,14 @@ function addVideo(id) {
         row += '<i class="fa fa-video-camera" onclick="$(\'li[data-pos=' + num_upload + ']\').find(\'a.group_view\').click();"></i>';
         row += '</span>';
         row += '<div class="mailbox-attachment-info">';
-        row += '<a href="' + obj_file + '" class="mailbox-attachment-name"><i class="fa fa-play"></i>' + obj_file + '</a>';
+        row += '<a data-href="' + path + '" onclick="openvideo($(this).attr(\'data-href\'), \'' + type + '\'); return false;" class="mailbox-attachment-name"><i class="fa fa-play"></i>' + obj_file + '</a>';
         row += '<span class="mailbox-attachment-size">';
         row += type;
         row += '<a href="#" onclick="RemoveTempFile(' + id + ',' + num_upload + ',\'' + obj_file + '\'); return false;" class="btn btn-default btn-xs pull-right"><i class="fa fa-trash-o"></i></a>';
         row += '</span>';
         row += '</div>';
-        row += '<input type="hidden" name="fileUpload_' + id + '[' + num_upload + ']" value="' + obj_file + '">';
+        row += '<input type="hidden" name="fileUpload_' + id + '_path[' + num_upload + ']" value="' + path + '">';
+        row += '<input type="hidden" name="fileUpload_' + id + '_type[' + num_upload + ']" value="' + type + '">';
         row += '</li>';
 
         $('#display_' + id).append(row).find('li').show();
@@ -446,6 +450,9 @@ function addVideo(id) {
             callDataVimeo(encodeURIComponent(Prepending_http('https://', path)), id, num_upload);
         } else if (type == 'facebook') {
             callDataFacebook(facebook_parser(path), id, num_upload);
+        } else if (type == 'link') {
+            $('#display_' + id + ' > li[data-pos="' + num_upload + '"]').find('.mailbox-attachment-name ').html(' <i class = "fa fa-play" ></i>' + getFileName(path));
+            $('input[name="pattern_' + id + '_input_video"]').val('');
         }
         num_upload++;
 
@@ -455,12 +462,12 @@ function addVideo(id) {
 }
 
 function displayVideoCover(item, pid, pos) {
-    var name = item[0];
-    var image = item[1];
+    var video_name = item[0];
+    var video_image = item[1];
 
-    var display = '<div style="background-image: url(' + image + ');" title="' + name + '"></div>';
+    var display = '<div style="background-image: url(' + video_image + ');" title="' + video_name + '"></div>';
     $('#display_' + pid + ' > li[data-pos="' + pos + '"]').find('.has-img').html(display);
-    $('#display_' + pid + ' > li[data-pos="' + pos + '"]').find('.mailbox-attachment-name ').html(' <i class = "fa fa-play" > < /i>' + name);
+    $('#display_' + pid + ' > li[data-pos="' + pos + '"]').find('.mailbox-attachment-name ').html(' <i class = "fa fa-play" ></i>' + video_name);
 
     $('input[name="pattern_' + pid + '_input_video"]').val('');
 }

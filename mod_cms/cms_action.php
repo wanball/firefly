@@ -110,7 +110,44 @@ if($userid == 0){
 		$stmt->bindParam(':loc', $loc, PDO::PARAM_STR);
 
 		$stmt->execute();			
-		
+
+		$sql_pattern = "SELECT mod_cms_pattern_id , mod_cms_pattern_format FROM mod_cms_pattern WHERE mod_cms_pattern_modulekey = '".$moduleKey."' AND mod_cms_pattern_parent = 0 ORDER BY mod_cms_pattern_order ASC"; 
+		$stmt_pattern = $conn->prepare($sql_pattern);
+		$stmt_pattern->execute();
+		while($row_pattern = $stmt_pattern->fetch()){
+			$pattern_id = $row_pattern['mod_cms_pattern_id'];
+
+
+			unset($insert);
+
+			if($row_pattern['mod_cms_pattern_format'] <= 4){
+
+				$patter_name = 'pattern_'.$pattern_id;
+
+				if($row_pattern['mod_cms_pattern_format'] == 3){
+					$loc = implode("|:|",$_POST[$patter_name]);
+				}else{
+					$loc = trim($_POST[$patter_name]);
+				}
+				if($loc != ''){
+
+					$insert['mod_cms_data_pid'] 		= $pid;
+					$insert['mod_cms_data_pattern'] 	= ":pattern";
+					$insert['mod_cms_data_lang'] 		= ":language";
+					$insert['mod_cms_data_loc'] 		= ":loc";
+						
+					$sql = "INSERT INTO mod_cms_data (" . implode(",", array_keys($insert)) . ") VALUES (" . implode(",", array_values($insert)) . ")";
+					
+					$stmt = $conn->prepare($sql);
+					$stmt->bindParam(':language', $language, PDO::PARAM_STR, 2);
+					$stmt->bindParam(':loc', $loc, PDO::PARAM_STR);
+					$stmt->bindParam(':pattern', $pattern_id, PDO::PARAM_INT);
+
+					$stmt->execute();	
+				}
+			}			
+		}
+
 		$url = base64_encode($_POST['menu'].'|mod_cms|view_content.php|'.$moduleKey); 
 		
 		header('Location: ../home.php?l='.$level.'&p='.$parent.'&m='.$url);

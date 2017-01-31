@@ -35,5 +35,6 @@
 	/*------------ facebook ID ------------*/
 	define('_FB_APP_ID_','379204692436012');
 	define('_FB_SECRET_','d7e036243386c6d2b64b76ed443d92e2');
+	define('_FB_PAGE_TOKEN_','379204692436012|qmW8BSSftA1AHQ9I7Jy5dvBsuBI');
 	
 ?>

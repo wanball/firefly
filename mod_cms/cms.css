@@ -195,6 +195,10 @@ img.cms_thumbnail {
     display: none;
 }
 
+.displayVideo>li {
+    height: 152px;
+}
+
 .displayGallery>li a.mailbox-attachment-name,
 .displayVideo>li a.mailbox-attachment-name {
     display: block;
@@ -234,6 +238,11 @@ div.video_choose input {
 
 .addVideo_btn {
     cursor: pointer;
+}
+
+#inline_video iframe {
+    width: 640px !important;
+    height: 480px !important;
 }
 
 @media only screen and (max-width: 480px) {
