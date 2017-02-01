@@ -120,15 +120,44 @@ if($userid == 0){
 
 			unset($insert);
 
-			if($row_pattern['mod_cms_pattern_format'] <= 4){
+			if($row_pattern['mod_cms_pattern_format'] <= 23){
 
 				$patter_name = 'pattern_'.$pattern_id;
 
-				if($row_pattern['mod_cms_pattern_format'] == 3){
-					$loc = implode("|:|",$_POST[$patter_name]);
-				}else{
+				switch ($row_pattern['mod_cms_pattern_format']) {
+				case 3:
+				case 5:
+					$loc = '';
+					if(isset($_POST[$patter_name]) && is_array($_POST[$patter_name])){
+						$loc = implode("|:|",$_POST[$patter_name]);
+					}
+					break;
+				case 4:
+					$loc = '';
+					if(isset($_POST[$patter_name])){
+						$loc = trim($_POST[$patter_name]);
+					}
+					break;
+				case 8:
+					if($_POST[$patter_name] == '0.00'){
+						$loc = '';
+					}else{
+						$loc = trim($_POST[$patter_name]);
+					}
+					break;
+				case 22:
+					$patter_name = 'pattern_district_'.$pattern_id;
 					$loc = trim($_POST[$patter_name]);
+					break;
+				case 23:
+					$patter_name = 'pattern_sub_district_'.$pattern_id;
+					$loc = trim($_POST[$patter_name]);
+					break;
+				default:
+					$loc = trim($_POST[$patter_name]);
+					break;
 				}
+
 				if($loc != ''){
 
 					$insert['mod_cms_data_pid'] 		= $pid;
@@ -145,6 +174,51 @@ if($userid == 0){
 
 					$stmt->execute();	
 				}
+			}else{
+				$target_dir1 = '../'._UPLOAD_DIR_;
+				$target_dir2 = $target_dir1."cms";
+				checkDir($target_dir1);
+				checkDir($target_dir2); 
+
+					if($row_pattern['mod_cms_pattern_format']==26){
+
+					}else{
+						$patter_name = 'fileUpload_'.$pattern_id;
+						if(is_array($_POST[$patter_name])){
+							foreach ($_POST[$patter_name] as $key => $value) {
+
+								$loc = trim($value);
+								$type = getExt($loc);
+								$type = getMimes($type);	
+								$order_item = ($key+1);	
+								//move_file
+								rename($target_dir1."temp/".$loc, $target_dir1."cms/".$loc);
+
+								unset($insert);
+								$insert['mod_cms_attachment_pid'] 		= $pid;
+								$insert['mod_cms_attachment_pattern'] 	= ":pattern";
+								$insert['mod_cms_attachment_lang'] 		= ":language";
+								$insert['mod_cms_attachment_loc'] 		= ":loc";
+								$insert['mod_cms_attachment_type'] 		= ":type";
+								$insert['mod_cms_attachment_order'] 		= ":order_item";
+									
+								$sql = "INSERT INTO mod_cms_attachment (" . implode(",", array_keys($insert)) . ") VALUES (" . implode(",", array_values($insert)) . ")";
+								
+								$stmt = $conn->prepare($sql);
+								$stmt->bindParam(':language', $language, PDO::PARAM_STR, 2);
+								$stmt->bindParam(':loc', $loc, PDO::PARAM_STR);
+								$stmt->bindParam(':pattern', $pattern_id, PDO::PARAM_INT);
+								$stmt->bindParam(':type', $type, PDO::PARAM_STR);
+								$stmt->bindParam(':order_item', $order_item, PDO::PARAM_INT);
+
+								$stmt->execute();
+							}							
+						}
+					}
+
+            	chmod($target_dir2 , 0755);
+            	chmod($target_dir1 , 0755);
+			
 			}			
 		}
 

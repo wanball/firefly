@@ -382,6 +382,126 @@ function strRip($str,$length){
 	$str = strip_tags($str);
 	$str = trim($str);
 	$str = mb_substr($str, 0, $length, 'UTF-8');
-	return $str;
+	return $str;}
+function getExt($path) {
+    $array = explode('.',$path);
+    return end($array); 
 }
+function getMimes($ext) {
+    $text = '';
+    switch ($ext) {
+        case 'htm':
+        case 'asp':
+        case 'aspx':
+        case 'php':
+        case 'js':
+        case 'css':
+        case 'xml':
+        case 'html':
+            $text = "internet";
+            break;
+        case 'ods':
+        case 'otf':
+        case 'xls':
+        case 'xlt':
+        case 'csv':
+        case 'xlsx':
+        case 'xlsm':
+        case 'numbers':
+            $text = "excel";
+            break;
+        case 'swf':
+        case 'fla':
+            $text = "flash";
+            break;
+        case 'odp':
+        case 'otp':
+        case 'ppt':
+        case 'pps':
+        case 'pot':
+        case 'pptx':
+        case 'potm':
+        case 'ppsx':
+        case 'key':
+            $text = "powerpoint";
+            break;
+        case 'aac':
+        case 'ac3':
+        case 'aiff':
+        case 'flac':
+        case 'm4a':
+        case 'mid':
+        case 'mp3':
+        case 'oga':
+        case 'ogg':
+        case 'wav':
+        case 'wma':
+            $text = "audio";
+            break;
+        case 'pdf':
+            $text = "pdf";
+            break;
+        case 'bmp':
+        case 'cr2':
+        case 'gif':
+        case 'ico':
+        case 'jpg':
+        case 'jpeg':
+        case 'odg':
+        case 'png':
+        case 'psd':
+        case 'svg':
+        case 'tiff':
+        case 'wbmp':
+        case 'webp':
+            $text = "image";
+            break;
+        case 'txt':
+            $text = "text";
+            break;
+        case '264':
+        case '3ga':
+        case '3gp':
+        case 'avi':
+        case 'f4v':
+        case 'flv':
+        case 'm2ts':
+        case 'm4v':
+        case 'mkv':
+        case 'mov':
+        case 'mp4':
+        case 'mpg':
+        case 'mpeg':
+        case 'mts':
+        case 'rmvb':
+        case 'vob':
+        case 'webm':
+        case 'wmv':
+        case 'ts':
+            $text = "video";
+            break;
+        case 'odt':
+        case 'ott':
+        case 'doc':
+        case 'dot':
+        case 'docx':
+        case 'page':
+            $text = "word";
+            break;
+        case '7z':
+        case 'tar.bz2':
+        case 'cab':
+        case 'lzh':
+        case 'tar':
+        case 'tar.gz':
+        case 'yz1':
+        case 'zip':
+            $text = "zip";
+            break;
+        default:
+            $text = "file";
+    }
+    return $text;
+}
+
 ?>

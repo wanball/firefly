@@ -282,7 +282,7 @@ $displayVideo = 0;
 																																																	
 																echo '<div class="checkbox">';
 																echo '<label>';
-																echo '<input type="checkbox" name="'.$form_name.'" value="'.$row_pattern_parent['mod_cms_pattern_value'].'"'.$attribute.'>';
+																echo '<input type="checkbox" name="'.$form_name.'[]" value="'.$row_pattern_parent['mod_cms_pattern_value'].'"'.$attribute.'>';
 																echo $row_pattern_parent['mod_cms_pattern_title'];
 																echo '</label>';
 																echo '</div>';
